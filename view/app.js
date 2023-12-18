@@ -127,17 +127,22 @@
 // app.js
 const express = require("express");
 const app = express();
-const addRoute = require("./routes/add");
-const loginRoute = require("./routes/login");
+const signupRoute = require("../routes/signup");
+const loginRoute = require("../routes/login");
+const usernamesRoute = require("../routes/usernames");
 const path = require("path");
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000; 
+
+// css and js files are in the public folder
+app.use(express.static(path.join(__dirname, "../public")));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "../index.html")); // Envoyer le fichier index.html
 });
 
-app.use("/", addRoute); // Utilise le routeur pour '/add'
-app.use("/", loginRoute); // Utilise le routeur pour '/login'
+app.use("/", signupRoute); // Use the addRoute middleware
+app.use("/", loginRoute);  // Use the loginRoute middleware
+app.use("/", usernamesRoute); // Use the usernamesRoute middleware
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
