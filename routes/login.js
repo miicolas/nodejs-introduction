@@ -37,7 +37,7 @@ res.cookie("AuthToken", token, {
   httpOnly: true, // Empêche l'accès via JavaScript côté client
   secure: false, // Uniquement transmis sur HTTPS (nécessaire en production)
   sameSite: "strict", // Restreint l'envoi du cookie aux requêtes du même site
-}).redirect("/"); 
+}).redirect('/profil');
 
 
   } catch (error) {

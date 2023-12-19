@@ -1,18 +1,23 @@
+// authenticateToken middleware
 const jwt = require('jsonwebtoken');
 
 const authenticateToken = (req, res, next) => {
-  const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+  const token = req.cookies.AuthToken; // Récupération du token depuis les cookies
 
   if (!token) {
-    return res.status(401).json({ error: 'Unauthorized: Token missing' });
+    return res.redirect('../'); // Redirection vers la page de connexion si le token est manquant
   }
+  console.log ('token reçu')
 
-  jwt.verify(token, 'secretKey', (err, decoded) => {
+  // Vérification du token
+  jwt.verify(token, 'secretKey', (err, user) => {
     if (err) {
-      return res.status(403).json({ error: 'Unauthorized: Invalid token' });
+      return res.redirect('../'); // Redirection si le token est invalide
+      console.log ('token invalide', err)
     }
-    req.user = decoded.user; // Ajoute les informations utilisateur au req pour les prochaines étapes
-    next(); // Poursuit le traitement des requêtes
+    
+    req.user = user;
+    next();
   });
 };
 
